@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+./notebooks/med_student_materials/qualtrics_data/*
+.DS_Store
+
 # Distribution / packaging
 .Python
 env/

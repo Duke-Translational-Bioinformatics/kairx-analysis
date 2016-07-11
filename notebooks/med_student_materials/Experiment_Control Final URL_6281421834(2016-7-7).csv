@@ -1,0 +1,14 @@
+"Experiment Name","Control Final URL" 
+"Experiment ID","6281421834" 
+"Status","Running" 
+"Date Range","June 20, 2016 - July 7, 2016" 
+
+"Engagement"
+"Variation","Total Conversions","Visitors","Conversions Per Visitor","Difference Interval","Improvement","Statistical Significance","Status"
+"Original","60","29","2.0690","[-1.5301, 1.5301]","---","---","baseline"
+"Variation #1","41","40","1.0250","[-∞, 0.3086]","-50.5%","<1%","inconclusive"
+
+"EMR Clicks"
+"Variation","Total Conversions","Visitors","Conversions Per Visitor","Difference Interval","Improvement","Statistical Significance","Status"
+"Original","727","29","25.0690","[-8.3059, 8.3059]","---","---","baseline"
+"Variation #1","1,329","40","33.2250","[-5.4655, 10.4039]","+32.5%","<1%","inconclusive"
