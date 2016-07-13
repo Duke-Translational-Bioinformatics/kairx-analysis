@@ -10,6 +10,7 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 from textwrap import wrap
+import scipy.stats
 
 cq_control = pd.read_csv(header=1,filepath_or_buffer=open("/Users/nn31/Dropbox/40-githubRrepos/kairx-analysis/notebooks/med_student_materials/qualtrics_data/KaiRx_Clinical_Questionnaire__Control.csv","rb"))
 cq_interve = pd.read_csv(header=1,filepath_or_buffer=open("/Users/nn31/Dropbox/40-githubRrepos/kairx-analysis/notebooks/med_student_materials/qualtrics_data/KaiRx_Clinical_Questionnaire__Intervention.csv","rb"))
@@ -51,7 +52,31 @@ question = ['Task 1: Diabetes 1. Which medication(s) is the patient currently ta
        '3. You ask Mr. Smith about the details of his depression medication changes in the past but he ha...',
        '4. You’d like to know what date that provider changed the medication so you can investigate the n...',
        '5. Why do you think the provider chose bupropion to prescribe in 2006? ']
+#Make a histogram
+import random
+import numpy
+from matplotlib import pyplot
 
+x = cq_control['Q_TotalDuration']
+x_min = x/60
+x_min_trunc = x_min[x_min<250]
+y = cq_interve['Q_TotalDuration']
+y_min = y/60
+y_min_trunc = y_min[y_min<250]
+
+scipy.stats.levene(x_min_trunc,y_min_trunc)
+scipy.stats.shapiro(x_min_trunc)
+scipy.stats.shapiro(y_min_trunc)
+scipy.stats.ttest_ind(x_min_trunc,y_min_trunc)
+bins = numpy.linspace(0, 360, 36)
+
+pyplot.hist(x_min, bins, alpha=0.5, label='Control')
+pyplot.hist(y_min, bins, alpha=0.5, label='Intervention')
+pyplot.legend(loc='upper left')
+pyplot.show()
+
+
+############
 def dict_2_list(d):
     out_list = []
     for key, value in d.items():
@@ -69,48 +94,56 @@ for i,x in enumerate(dd['SurveyElements']):
             question_choi.append(dict_2_list(x['Payload']['Choices']))
 
 #Create a bar plot for multinomial questions
-questionsName = '2. How long has he been taking his diabetes medication(s)?'
 for i,x in enumerate(question_text):
-    if 'How long has he been' in x:
+    if 'like to know what date that' in x:
         print(i)
         print(x)
-dd_number = 2
+questionsName = 'Task 1: Diabetes 1. Which medication(s) is the patient currently taking for diabetes? '
+dd_number = 18
 
-def createBarPlot(questionsName,dd_number):
-    #using this information, let's draw our bar plot
-    length = len(question_choi[dd_number])
-    depths = [[0,0] for i in range(length)]
-    #Add actual data
-    counts_control = cq_control[questionsName].value_counts()
-    counts_interve = cq_interve[questionsName].value_counts()
-    #replace zeros with actual data
-    for x in list(counts_control.index):
-        if x in question_choi[dd_number]:
-            indx = question_choi[dd_number].index(x)
-            depths[indx][0] = counts_control[x]
-            
-    for x in list(counts_interve.index):
-        if x in question_choi[dd_number]:
-            indx = question_choi[dd_number].index(x)
-            depths[indx][1] = counts_interve[x]
-    #start the matplotlib stuff
-    n_groups = 2
-    fig, ax = plt.subplots()    
-    index = np.arange(n_groups)
-    bar_width = 0.15   
-    opacity = 0.4
-    error_config = {'ecolor': '0.3'}
-    
-    #Use list comprehension to define the rects
-    rects = [plt.bar(index+(i*bar_width), x, bar_width, 
-                    alpha=opacity,
-                    color=colors[i],
-                    error_kw=error_config,
-                    label=question_choi[dd_number][i]) for i,x in enumerate(depths)]      
-    # add some   
-    plt.ylabel('Total')
-    plt.title("\n".join(wrap(questionsName)))
-    plt.xticks(index + bar_width*2.5,  ('Control','Intervention'))
-    plt.legend()
-    plt.tight_layout()
-    plt.show()
+
+#using this information, let's draw our bar plot
+length = len(question_choi[dd_number])
+depths = [[0,0] for i in range(length)]
+#Add actual data
+counts_control = cq_control[questionsName].value_counts()
+counts_interve = cq_interve[questionsName].value_counts()
+#replace zeros with actual data
+for x in list(counts_control.index):
+    if x in question_choi[dd_number]:
+        indx = question_choi[dd_number].index(x)
+        depths[indx][0] = counts_control[x]
+        
+for x in list(counts_interve.index):
+    if x in question_choi[dd_number]:
+        indx = question_choi[dd_number].index(x)
+        depths[indx][1] = counts_interve[x]
+#start the matplotlib stuff
+n_groups = 2
+fig, ax = plt.subplots()    
+index = np.arange(n_groups)
+bar_width = 0.15   
+opacity = 0.4
+error_config = {'ecolor': '0.3'}
+
+#Use list comprehension to define the rects
+rects = [plt.bar(index+(i*bar_width), x, bar_width, 
+                alpha=opacity,
+                color=colors[i],
+                error_kw=error_config,
+                label=question_choi[dd_number][i]) for i,x in enumerate(depths)]      
+# add some   
+plt.ylabel('Total')
+plt.title("\n".join(wrap(questionsName)))
+plt.xticks(index + bar_width*2.5,  ('Control','Intervention'))
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+
+
+
+
+
+
+
