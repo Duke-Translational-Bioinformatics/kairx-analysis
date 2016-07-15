@@ -12,11 +12,11 @@ import matplotlib.pyplot as plt
 from textwrap import wrap
 import scipy.stats
 
-cq_control = pd.read_csv(header=1,filepath_or_buffer=open("/Users/nn31/Dropbox/40-githubRrepos/kairx-analysis/notebooks/med_student_materials/qualtrics_data/KaiRx_Clinical_Questionnaire__Control.csv","rb"))
-cq_interve = pd.read_csv(header=1,filepath_or_buffer=open("/Users/nn31/Dropbox/40-githubRrepos/kairx-analysis/notebooks/med_student_materials/qualtrics_data/KaiRx_Clinical_Questionnaire__Intervention.csv","rb"))
-us_control = pd.read_csv(header=1,filepath_or_buffer=open("/Users/nn31/Dropbox/40-githubRrepos/kairx-analysis/notebooks/med_student_materials/qualtrics_data/KaiRx_Usability_Survey_and_Feedback__Control.csv","rb"))
-us_interve = pd.read_csv(header=1,filepath_or_buffer=open("/Users/nn31/Dropbox/40-githubRrepos/kairx-analysis/notebooks/med_student_materials/qualtrics_data/KaiRx_Usability_Survey_and_Feedback__Intervention.csv","rb"))
-dd = json.load(open("/Users/nn31/Dropbox/40-githubRrepos/kairx-analysis/notebooks/med_student_materials/qualtrics_data/KaiRx_Clinical_Questionnaire_-_Control.qsf","r"))
+cq_control = pd.read_csv(header=1,filepath_or_buffer=open("/Users/benneely/Dropbox/40-githubRrepos/kairx-analysis/notebooks/med_student_materials/qualtrics_data/KaiRx_Clinical_Questionnaire__Control.csv","rb"))
+cq_interve = pd.read_csv(header=1,filepath_or_buffer=open("/Users/benneely/Dropbox/40-githubRrepos/kairx-analysis/notebooks/med_student_materials/qualtrics_data/KaiRx_Clinical_Questionnaire__Intervention.csv","rb"))
+us_control = pd.read_csv(header=1,filepath_or_buffer=open("/Users/benneely/Dropbox/40-githubRrepos/kairx-analysis/notebooks/med_student_materials/qualtrics_data/KaiRx_Usability_Survey_and_Feedback__Control.csv","rb"))
+us_interve = pd.read_csv(header=1,filepath_or_buffer=open("/Users/benneely/Dropbox/40-githubRrepos/kairx-analysis/notebooks/med_student_materials/qualtrics_data/KaiRx_Usability_Survey_and_Feedback__Intervention.csv","rb"))
+dd = json.load(open("/Users/benneely/Dropbox/40-githubRrepos/kairx-analysis/notebooks/med_student_materials/qualtrics_data/KaiRx_Clinical_Questionnaire_-_Control.qsf.txt","r"))
 
 #In order to create the bar plots, we'll need a data structure including metadata
 #Here are the questions we're interested in:
@@ -140,10 +140,22 @@ plt.legend()
 plt.tight_layout()
 plt.show()
 
+#make contengency table with p-value
+cq_interve['label'] = "intervention"
+cq_control['label'] = "control"
+cq_interve[['label',questionsName]]
+a = cq_interve[['label',questionsName]]
+b= cq_control[['label',questionsName]]
+cont_table = pd.concat([cq_interve[['label',questionsName]],cq_control[['label',questionsName]]],
+                       axis=0)
+crosstab = pd.crosstab(cont_table[questionsName], cont_table['label'], 
+            rownames=[questionsName], colnames=['Arm'])
+print(scipy.stats.chi2_contingency(crosstab))
+print(crosstab)
 
 
-
-
-
-
+crosstab = ...  
+scipy.stats.chi2_contingency(
+  crosstab.drop(crosstab.columns[0]).toPandas().as_matrix()
+)
 
