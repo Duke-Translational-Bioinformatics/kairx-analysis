@@ -1,0 +1,14 @@
+"Experiment Name","Intervention Final URL" 
+"Experiment ID","6260120514" 
+"Status","Running" 
+"Date Range","June 20, 2016 - July 7, 2016" 
+
+"Engagement"
+"Variation","Total Conversions","Visitors","Conversions Per Visitor","Difference Interval","Improvement","Statistical Significance","Status"
+"Original","68","44","1.5455","[-0.7581, 0.7581]","---","---","baseline"
+"Variation #1","46","32","1.4375","[-1.0631, 0.7571]","-7.0%","<1%","inconclusive"
+
+"Clicks on EMR"
+"Variation","Total Conversions","Visitors","Conversions Per Visitor","Difference Interval","Improvement","Statistical Significance","Status"
+"Original","3,271","44","74.3409","[-17.9685, 17.9685]","---","---","baseline"
+"Variation #1","1,972","32","61.6250","[-25.0838, 11.5056]","-17.1%","<1%","inconclusive"
