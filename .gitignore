@@ -5,6 +5,7 @@ __pycache__/
 
 # C extensions
 *.so
+*KaiRx Contact Information.csv
 
 ./notebooks/med_student_materials/qualtrics_data/*
 .DS_Store
